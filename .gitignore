@@ -1,0 +1,13 @@
+client/node_modules/**/*
+client/.expo/*
+client/npm-debug.*
+client/*.jks
+client/*.p8
+client/*.p12
+client/*.key
+client/*.mobileprovision
+client/*.orig.*
+client/web-build/
+
+# macOS
+.DS_Store
