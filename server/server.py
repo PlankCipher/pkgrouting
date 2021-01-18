@@ -1,7 +1,7 @@
 from flask import Flask
 from flask import jsonify
-server = Flask(__name__)
 
+server = Flask(__name__)
 
 # code:
 # algorithm

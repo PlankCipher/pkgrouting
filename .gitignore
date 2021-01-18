@@ -1,3 +1,4 @@
+# client
 client/node_modules/**/*
 client/.expo/*
 client/npm-debug.*
@@ -8,6 +9,12 @@ client/*.key
 client/*.mobileprovision
 client/*.orig.*
 client/web-build/
+
+# server
+server/__pycache__
+server/cords.xlsx
+server/distances.csv
+server/config.py
 
 # macOS
 .DS_Store

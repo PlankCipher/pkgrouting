@@ -1,0 +1,1 @@
+GOOGLE_API_KEY = 'get your key from https://developers.google.com/places/web-service/get-api-key'
