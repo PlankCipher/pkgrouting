@@ -22,11 +22,13 @@ class Login extends Component {
     });
   };
 
-  submit = () => {
+  submit = (navigate) => {
     // TODO: Add login logic
-    console.log('LOGIN BUTTON PRESSED');
+    navigate('Home');
   };
 
+  // TODO: don't forget to make this route inaccessible
+  // if user is logged in.
   render() {
     const {
       navigation: { navigate },
@@ -65,10 +67,10 @@ class Login extends Component {
               this.secondTextInput = input;
             }}
             onChangeText={(text) => this.handleInputChange('password', text)}
-            onSubmitEditing={this.submit}
+            onSubmitEditing={() => this.submit(navigate)}
           />
 
-          <TouchableWithoutFeedback onPress={this.submit}>
+          <TouchableWithoutFeedback onPress={() => this.submit(navigate)}>
             <View style={styles.button}>
               <Text style={styles.buttonText}>Login</Text>
             </View>

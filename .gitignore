@@ -9,6 +9,7 @@ client/*.key
 client/*.mobileprovision
 client/*.orig.*
 client/web-build/
+client/.env
 
 # server
 server/__pycache__

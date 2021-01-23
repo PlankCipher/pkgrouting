@@ -27,6 +27,8 @@ class SignUp extends Component {
     console.log('SIGN UP BUTTON PRESSED');
   };
 
+  // TODO: don't forget to make this route inaccessible
+  // if use is logged in.
   render() {
     const {
       navigation: { goBack },

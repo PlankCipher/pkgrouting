@@ -5,11 +5,11 @@ class SafeAreaViewCrossPlatform extends Component {
   render() {
     const { children, style } = this.props;
 
-    return (
-      <SafeAreaView style={[...style, styles.SafeAreaViewCrossPlatform]}>
-        {children}
-      </SafeAreaView>
-    );
+    const totStyles = style
+      ? [...style, styles.SafeAreaViewCrossPlatform]
+      : styles.SafeAreaViewCrossPlatform;
+
+    return <SafeAreaView style={totStyles}>{children}</SafeAreaView>;
   }
 }
 
