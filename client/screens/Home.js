@@ -145,7 +145,7 @@ const styles = StyleSheet.create({
     elevation: 3,
   },
   clearButton: {
-    fontSize: 24,
+    fontSize: 21,
     color: 'red',
   },
 });

@@ -4,7 +4,7 @@ import {
   Image,
   View,
   TextInput,
-  TouchableWithoutFeedback,
+  TouchableOpacity,
   Text,
 } from 'react-native';
 import SafeAreaViewCrossPlatform from '../components/SafeAreaViewCrossPlatform.js';
@@ -70,11 +70,15 @@ class SignUp extends Component {
             onSubmitEditing={this.submit}
           />
 
-          <TouchableWithoutFeedback onPress={this.submit}>
+          <TouchableOpacity
+            activeOpacity={0.7}
+            style={styles.buttonOuter}
+            onPress={this.submit}
+          >
             <View style={styles.button}>
               <Text style={styles.buttonText}>Sign Up</Text>
             </View>
-          </TouchableWithoutFeedback>
+          </TouchableOpacity>
 
           <Text style={styles.loginButton} onPress={() => goBack('Login')}>
             or Login
@@ -113,8 +117,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: 11,
     textAlign: 'center',
   },
-  button: {
+  buttonOuter: {
     width: '100%',
+  },
+  button: {
     marginTop: 25,
     backgroundColor: '#ff9457',
     borderColor: '#ff9457',
