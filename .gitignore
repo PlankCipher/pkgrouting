@@ -12,10 +12,10 @@ client/web-build/
 client/.env
 
 # server
-server/__pycache__
-server/cords.xlsx
-server/distances.csv
-server/config.py
+algo/__pycache__
+algo/cords.xlsx
+algo/distances.csv
+algo/config.py
 
 # macOS
 .DS_Store
