@@ -1,5 +1,8 @@
+# general
+*/node_modules/**/*
+*/.env
+
 # client
-client/node_modules/**/*
 client/.expo/*
 client/npm-debug.*
 client/*.jks
@@ -9,7 +12,6 @@ client/*.key
 client/*.mobileprovision
 client/*.orig.*
 client/web-build/
-client/.env
 
 # server
 algo/__pycache__
