@@ -4,9 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest --watchAll",
+    "test": "jest --watchAll --runInBand",
     "dev": "nodemon index.js",
     "initdb": "node db/initDB.js"
+  },
+  "jest": {
+    "testSequencer": "./utils/testSequencer.js"
   },
   "author": "PlankCipher",
   "license": "GPL-3.0-only",
@@ -19,6 +22,8 @@
     "mysql2": "^2.2.5"
   },
   "devDependencies": {
+    "@jest/test-sequencer": "^26.6.3",
+    "babel-eslint": "^10.1.0",
     "dotenv": "^8.2.0",
     "eslint": "^7.18.0",
     "eslint-config-airbnb-base": "^14.2.1",

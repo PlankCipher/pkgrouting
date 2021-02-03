@@ -10,44 +10,44 @@ describe('users table in test database', () => {
       null,
     );
 
-    expect(result[0].count).toEqual(0);
+    expect(result[0].count).toBe(0);
   });
 });
 
-describe('findByUsername()', () => {
-  test('findByUsername() is defined', () => {
-    expect(User.findByUsername).toBeDefined();
+describe('findByName()', () => {
+  test('findByName() is defined', () => {
+    expect(User.findByName).toBeDefined();
   });
 
-  test("findByUsername('someusername') returns id, username, and hashed password of the user with the username 'someusername' if exists.", async () => {
+  test("findByName('somename') returns id, name, and hashed password of the user with the name 'somename' if exists.", async () => {
     expect.assertions(1);
 
     const expectedUser = {
       id: expect.any(Number),
-      name: 'someusername',
+      name: 'somename',
       password: expect.any(String),
     };
 
     const [result] = await execQuery(
-      "INSERT INTO users (name, password) VALUES ('someusername', 'password')",
+      "INSERT INTO users (name, password) VALUES ('somename', 'password')",
       null,
     );
 
-    const { user } = await User.findByUsername('someusername');
+    const { user } = await User.findByName('somename');
 
     expect(user).toEqual(expectedUser);
 
     await execQuery('DELETE FROM users WHERE id = ?', [result.insertId]);
   });
 
-  test("findByUsername('someusername') returns an error with status code 404 if user not found", async () => {
+  test("findByName('somename') returns an error with status code 404 if user not found", async () => {
     expect.assertions(1);
 
     const expectedError = {
       statusCode: 404,
     };
 
-    const { err } = await User.findByUsername('someusername');
+    const { err } = await User.findByName('somename');
 
     expect(err).toEqual(expect.objectContaining(expectedError));
   });
@@ -58,45 +58,41 @@ describe('findOrCreate()', () => {
     expect(User.findOrCreate).toBeDefined();
   });
 
-  test("findOrCreate('someusername', 'password') adds a user to the database and returns its id and username if username is not taken", async () => {
+  test("findOrCreate('somename', 'password') adds a user to the database and returns its id and name if name is not taken", async () => {
     expect.assertions(1);
 
     const expectedUser = {
       id: expect.any(Number),
-      name: 'someusername',
+      name: 'somename',
     };
 
-    const { user } = await User.findOrCreate('someusername', 'password');
+    const { user } = await User.findOrCreate('somename', 'password');
 
     expect(user).toEqual(expect.objectContaining(expectedUser));
 
     await execQuery('DELETE FROM users WHERE id = ?', [user.id]);
   });
 
-  test("findOrCreate('someusername', 'password') inserts a hashed password to the database", async () => {
+  test("findOrCreate('somename', 'password') inserts a hashed password to the database", async () => {
     expect.assertions(1);
 
     const { user: createdUser } = await User.findOrCreate(
-      'someusername',
+      'somename',
       'password',
     );
 
-    const { err, user: retrievedUser } = await User.findByUsername(
-      'someusername',
-    );
-
-    if (err) throw err;
+    const { user: retrievedUser } = await User.findByName('somename');
 
     expect(retrievedUser.password).not.toBe('password');
 
     await execQuery('DELETE FROM users WHERE id = ?', [createdUser.id]);
   });
 
-  test("findOrCreate('someusername', 'password') returns an error with status code 409 if username already taken", async () => {
+  test("findOrCreate('somename', 'password') returns an error with status code 409 if name already taken", async () => {
     expect.assertions(1);
 
     const [result] = await execQuery(
-      "INSERT INTO users (name, password) VALUES ('someusername', 'password')",
+      "INSERT INTO users (name, password) VALUES ('somename', 'password')",
       null,
     );
 
@@ -104,7 +100,7 @@ describe('findOrCreate()', () => {
       statusCode: 409,
     };
 
-    const { err } = await User.findOrCreate('someusername');
+    const { err } = await User.findOrCreate('somename');
 
     expect(err).toEqual(expect.objectContaining(expectedError));
 
