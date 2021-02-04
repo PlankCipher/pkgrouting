@@ -50,6 +50,23 @@ class User {
       return { err, user: null };
     }
   }
+
+  static async findById(id) {
+    try {
+      const findUserSQL = 'SELECT * FROM users WHERE id = ?';
+      const [findUserResult] = await execQuery(findUserSQL, [id]);
+
+      if (findUserResult.length < 1) {
+        const err = new Error(`User with the id ${id} was not found.`);
+        err.statusCode = 404;
+        throw err;
+      }
+
+      return { err: null, user: findUserResult[0] };
+    } catch (err) {
+      return { err, user: null };
+    }
+  }
 }
 
 module.exports = User;

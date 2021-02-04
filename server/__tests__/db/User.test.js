@@ -53,6 +53,46 @@ describe('findByName()', () => {
   });
 });
 
+describe('findById()', () => {
+  test('findById() is defined', () => {
+    expect(User.findById).toBeDefined();
+  });
+
+  test('findById(someId) returns id, name, and hashed password of the user with the id (someId) if exists.', async () => {
+    expect.assertions(1);
+
+    const [result] = await execQuery(
+      "INSERT INTO users (name, password) VALUES ('somename', 'password')",
+      null,
+    );
+    const { insertId } = result;
+
+    const expectedUser = {
+      id: insertId,
+      name: 'somename',
+      password: expect.any(String),
+    };
+
+    const { user } = await User.findById(insertId);
+
+    expect(user).toEqual(expectedUser);
+
+    await execQuery('DELETE FROM users WHERE id = ?', [insertId]);
+  });
+
+  test('findById(someId) returns an error with status code 404 if user not found', async () => {
+    expect.assertions(1);
+
+    const expectedError = {
+      statusCode: 404,
+    };
+
+    const { err } = await User.findById(1);
+
+    expect(err).toEqual(expect.objectContaining(expectedError));
+  });
+});
+
 describe('findOrCreate()', () => {
   test('findOrCreate() is defined', () => {
     expect(User.findOrCreate).toBeDefined();

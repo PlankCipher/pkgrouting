@@ -1,8 +1,9 @@
 const fetch = require('node-fetch');
 const User = require('../../db/User.js');
 const execQuery = require('../../db/execQuery.js');
+require('dotenv').config();
 
-const API_URL = 'http://localhost:5000';
+const { API_URL } = process.env;
 
 // TODO: when refactoring, consider extracting the repetitive operations
 // TODO: to functions in utils dir
