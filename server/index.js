@@ -4,6 +4,7 @@ const MySQLSessionStore = require('express-mysql-session')(session);
 const cookieParser = require('cookie-parser');
 const authRouter = require('./routers/auth.js');
 const usersRouter = require('./routers/users.js');
+const routesRouter = require('./routers/routes.js');
 const dbConfig = require('./db/connectionConfig.js');
 
 if (process.env.NODE_ENV !== 'production') {
@@ -29,6 +30,7 @@ app.use(express.json());
 
 app.use('/auth', authRouter);
 app.use('/users', usersRouter);
+app.use('/routes', routesRouter);
 
 // eslint-disable-next-line
 app.use((err, req, res, next) => {
