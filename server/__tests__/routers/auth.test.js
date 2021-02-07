@@ -21,7 +21,7 @@ describe('users table in test database', () => {
 });
 
 describe(`${API_URL}/auth/current`, () => {
-  test('GET@/auth/current returns a response with a 403 status code when not logged in', async () => {
+  test('GET@/auth/current responds with a 403 status code when not logged in', async () => {
     expect.assertions(1);
 
     const res = await fetch(`${API_URL}/auth/current`);
@@ -29,8 +29,8 @@ describe(`${API_URL}/auth/current`, () => {
     expect(res.status).toBe(403);
   });
 
-  test('GET@/auth/current returns the id and name of currently logged in user', async () => {
-    expect.assertions(1);
+  test('GET@/auth/current respods with a 200 status code and the id and name of currently logged in user', async () => {
+    expect.assertions(2);
 
     const nameToCreate = 'somename';
     const password = 'somepassword';
@@ -52,10 +52,12 @@ describe(`${API_URL}/auth/current`, () => {
         cookie: headers.get('set-cookie'),
       },
     });
+    const { status: statusCode } = res;
     const currentUser = await res.json();
 
     const expectedUser = { id, name };
 
+    expect(statusCode).toBe(200);
     expect(currentUser).toEqual(expectedUser);
 
     await fetch(`${API_URL}/auth/logout`, {
@@ -98,8 +100,8 @@ describe(`${API_URL}/auth/signup`, () => {
 });
 
 describe(`${API_URL}/auth/login`, () => {
-  test('POST@/auth/login with JSON body of name and password responds with a 204 status code and puts the logged in user data into session', async () => {
-    expect.assertions(2);
+  test('POST@/auth/login with JSON body of name and password responds with a 200 status code and logged in user id and name and puts the logged in user data into session', async () => {
+    expect.assertions(3);
 
     const nameToCreate = 'somename';
     const password = 'somepassword';
@@ -115,6 +117,8 @@ describe(`${API_URL}/auth/login`, () => {
       method: 'POST',
       body: JSON.stringify({ name: nameToCreate, password }),
     });
+    const { status: statusCode } = logInRes;
+    const loggedInUser = await logInRes.json();
     const logInCookie = logInRes.headers.get('set-cookie');
 
     const currentRes = await fetch(`${API_URL}/auth/current`, {
@@ -126,7 +130,8 @@ describe(`${API_URL}/auth/login`, () => {
 
     const expectedUser = { id, name };
 
-    expect(logInRes.status).toBe(204);
+    expect(statusCode).toBe(200);
+    expect(loggedInUser).toEqual(expectedUser);
     expect(currentUser).toEqual(expectedUser);
 
     await fetch(`${API_URL}/auth/logout`, {

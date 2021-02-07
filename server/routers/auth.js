@@ -31,7 +31,7 @@ router.post('/login', requireNotLoggedIn, async (req, res, next) => {
 
         req.session.user = finalUser;
 
-        res.status(204).end();
+        res.json(finalUser);
       } else {
         const newErr = new Error('Incorrect credentials.');
         newErr.statusCode = 401;

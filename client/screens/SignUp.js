@@ -6,14 +6,20 @@ import {
   TextInput,
   TouchableOpacity,
   Text,
+  ActivityIndicator,
+  Alert,
 } from 'react-native';
 import SafeAreaViewCrossPlatform from '../components/SafeAreaViewCrossPlatform.js';
+import { UsersContext } from '../contexts/Users.js';
 import icon from '../assets/icon.png';
 
 class SignUp extends Component {
+  static contextType = UsersContext;
+
   state = {
-    username: '',
+    name: '',
     password: '',
+    loading: false,
   };
 
   handleInputChange = (name, value) => {
@@ -22,13 +28,42 @@ class SignUp extends Component {
     });
   };
 
-  submit = () => {
-    // TODO: Add sign up logic
-    console.log('SIGN UP BUTTON PRESSED');
+  submit = async () => {
+    this.setState({ loading: true });
+
+    let { password } = this.state;
+    const { name } = this.state;
+    name = name.trim();
+
+    if (name.length === 0 || password.length === 0) {
+      Alert.alert('', 'You need to fill out all fields to proceed');
+      this.setState({ loading: false });
+    } else if (password.length < 8) {
+      Alert.alert('', 'Password must be at least 8 characters');
+      this.setState({ loading: false });
+    } else {
+      const { err } = await this.context.signUp(name, password);
+
+      if (err) {
+        const { statusCode } = err;
+
+        if (statusCode === 409) {
+          Alert.alert(
+            'Username taken',
+            `The username "${name}" is already taken.`,
+          );
+          this.setState({ loading: false });
+        } else {
+          Alert.alert(
+            'Ooops!',
+            'Something went wrong. Please try again later.',
+          );
+          this.setState({ loading: false });
+        }
+      }
+    }
   };
 
-  // TODO: don't forget to make this route inaccessible
-  // if use is logged in.
   render() {
     const {
       navigation: { goBack },
@@ -44,7 +79,7 @@ class SignUp extends Component {
           />
 
           <TextInput
-            value={this.state.username}
+            value={this.state.name}
             style={styles.input}
             placeholder="Username"
             returnKeyType="next"
@@ -54,7 +89,7 @@ class SignUp extends Component {
             onSubmitEditing={() => {
               this.secondTextInput.focus();
             }}
-            onChangeText={(text) => this.handleInputChange('username', text)}
+            onChangeText={(text) => this.handleInputChange('name', text)}
           />
           <TextInput
             value={this.state.password}
@@ -76,7 +111,15 @@ class SignUp extends Component {
             onPress={this.submit}
           >
             <View style={styles.button}>
-              <Text style={styles.buttonText}>Sign Up</Text>
+              {this.state.loading ? (
+                <ActivityIndicator
+                  animating={this.state.loading}
+                  size="large"
+                  color="#fff7"
+                />
+              ) : (
+                <Text style={styles.buttonText}>Sign Up</Text>
+              )}
             </View>
           </TouchableOpacity>
 
@@ -121,6 +164,7 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   button: {
+    height: 42,
     marginTop: 25,
     backgroundColor: '#ff9457',
     borderColor: '#ff9457',
@@ -130,7 +174,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 11,
   },
   buttonText: {
-    fontSize: 25,
+    fontSize: 23,
     color: '#fff',
     textAlign: 'center',
   },
