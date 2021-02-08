@@ -1,6 +1,6 @@
 const validateCoords = (coords) => {
-  const { lat, long } = coords;
-  return lat >= -90 && lat <= 90 && long >= -180 && long <= 180;
+  const { lat, lng } = coords;
+  return lat >= -90 && lat <= 90 && lng >= -180 && lng <= 180;
 };
 
 module.exports = validateCoords;

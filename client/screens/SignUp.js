@@ -31,8 +31,8 @@ class SignUp extends Component {
   submit = async () => {
     this.setState({ loading: true });
 
-    let { password } = this.state;
-    const { name } = this.state;
+    const { password } = this.state;
+    let { name } = this.state;
     name = name.trim();
 
     if (name.length === 0 || password.length === 0) {

@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import { UsersContext, UsersContextProvider } from './contexts/Users.js';
 import Login from './screens/Login.js';
 import SignUp from './screens/SignUp.js';
 import Home from './screens/Home.js';
 import Loading from './screens/Loading.js';
+import { UsersContext, UsersContextProvider } from './contexts/Users.js';
+import { RoutesContextProvider } from './contexts/Routes.js';
 
 const Stack = createStackNavigator();
 
@@ -53,7 +54,9 @@ class App extends Component {
 export default () => {
   return (
     <UsersContextProvider>
-      <App />
+      <RoutesContextProvider>
+        <App />
+      </RoutesContextProvider>
     </UsersContextProvider>
   );
 };
