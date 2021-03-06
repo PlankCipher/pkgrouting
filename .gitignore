@@ -13,11 +13,10 @@ client/*.mobileprovision
 client/*.orig.*
 client/web-build/
 
-# server
+# algo
 algo/__pycache__
-algo/cords.xlsx
-algo/distances.csv
 algo/config.py
+algo/testdata.csv
 
 # macOS
 .DS_Store
