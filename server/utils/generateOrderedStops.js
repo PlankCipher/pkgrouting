@@ -24,7 +24,7 @@ const generateOrderedStops = (stops, callback) => {
       args: [JSON.stringify({ stops })],
     };
 
-    PythonShell.run('generate_route_mock.py', options, callback);
+    PythonShell.run('generate_route.py', options, callback);
   } catch (err) {
     callback(err, null);
   }

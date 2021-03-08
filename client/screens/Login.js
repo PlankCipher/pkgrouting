@@ -53,6 +53,11 @@ class Login extends Component {
       navigation: { navigate },
     } = this.props;
 
+    // TODO: shouldn't you destructure name
+    // TODO: and password from state so that
+    // TODO: you don't have to do that this.state
+    // TODO: in the values of the inputs
+
     return (
       <SafeAreaViewCrossPlatform style={[styles.outerContainer]}>
         <View style={styles.container}>
