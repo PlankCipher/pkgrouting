@@ -9,13 +9,17 @@ class SafeAreaViewCrossPlatform extends Component {
       ? [...style, styles.SafeAreaViewCrossPlatform]
       : styles.SafeAreaViewCrossPlatform;
 
-    return <SafeAreaView style={totStyles}>{children}</SafeAreaView>;
+    return (
+      <SafeAreaView {...this.props} style={totStyles}>
+        {children}
+      </SafeAreaView>
+    );
   }
 }
 
 const styles = StyleSheet.create({
   SafeAreaViewCrossPlatform: {
-    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
+    marginTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
   },
 });
 

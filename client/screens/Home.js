@@ -14,6 +14,7 @@ import 'react-native-get-random-values';
 import { v4 as uuidv4 } from 'uuid';
 import { FontAwesome5 } from '@expo/vector-icons';
 import SafeAreaViewCrossPlatform from '../components/SafeAreaViewCrossPlatform.js';
+import TopBar from '../components/TopBar.js';
 import { RoutesContext } from '../contexts/Routes.js';
 
 class Home extends Component {
@@ -99,7 +100,7 @@ class Home extends Component {
     this.setState({ loading: false });
   };
 
-  _getUserLocation = async () => {
+  getUserLocation = async () => {
     const { status } = await Permissions.askAsync(Permissions.LOCATION);
 
     if (status !== 'granted') {
@@ -129,7 +130,7 @@ class Home extends Component {
   };
 
   async componentWillMount() {
-    await this._getUserLocation();
+    await this.getUserLocation();
   }
 
   render() {
@@ -178,6 +179,8 @@ class Home extends Component {
             />
           )}
         </MapView>
+
+        <TopBar locateMe={this.getUserLocation} />
 
         <View style={styles.routeInfo}>
           {distance && (
