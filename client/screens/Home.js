@@ -15,8 +15,11 @@ import { v4 as uuidv4 } from 'uuid';
 import { FontAwesome5 } from '@expo/vector-icons';
 import SafeAreaViewCrossPlatform from '../components/SafeAreaViewCrossPlatform.js';
 import TopBar from '../components/TopBar.js';
+import SideMenu from '../components/SideMenu.js';
 import { RoutesContext } from '../contexts/Routes.js';
 
+// NOTE: So many pre-deadline crappy
+// NOTE: stuff will face you down below
 class Home extends Component {
   static contextType = RoutesContext;
 
@@ -30,6 +33,8 @@ class Home extends Component {
     path: {
       points: [],
     },
+    sideMenuToggleFn: null,
+    menuWidth: 0,
   };
 
   handleMapPress = (event) => {
@@ -129,6 +134,19 @@ class Home extends Component {
     }
   };
 
+  setSideMenuToggleFn = (sideMenuToggleFn) => {
+    this.setState({
+      sideMenuToggleFn,
+    });
+  };
+
+  setMenuWidth = (event) => {
+    const { width } = event.nativeEvent.layout;
+    this.setState({
+      menuWidth: width * 0.71,
+    });
+  };
+
   async componentWillMount() {
     await this.getUserLocation();
   }
@@ -138,10 +156,12 @@ class Home extends Component {
       location: { latitude, longitude },
       stops,
       path: { points, distance, duration },
+      sideMenuToggleFn,
+      menuWidth,
     } = this.state;
 
     return (
-      <SafeAreaViewCrossPlatform>
+      <SafeAreaViewCrossPlatform onLayout={this.setMenuWidth}>
         <MapView
           ref={(ref) => (this.mapView = ref)}
           style={styles.map}
@@ -180,7 +200,10 @@ class Home extends Component {
           )}
         </MapView>
 
-        <TopBar locateMe={this.getUserLocation} />
+        <TopBar
+          toggleSideMenu={sideMenuToggleFn}
+          locateMe={this.getUserLocation}
+        />
 
         <View style={styles.routeInfo}>
           {distance && (
@@ -227,6 +250,12 @@ class Home extends Component {
             </View>
           </TouchableWithoutFeedback>
         )}
+
+        <SideMenu
+          setSideMenuToggleFn={this.setSideMenuToggleFn}
+          width={menuWidth}
+          navigation={this.props.navigation}
+        />
       </SafeAreaViewCrossPlatform>
     );
   }

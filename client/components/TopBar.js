@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
   },
   icon: {
     fontSize: 21,
-    color: '#1e90ffee',
+    color: '#3B1C32dd',
   },
 });
 

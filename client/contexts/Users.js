@@ -38,6 +38,7 @@ class UsersContextProvider extends Component {
     try {
       const res = await fetch(`${API_URL}/auth/logout`, {
         credentials: 'include',
+        method: 'POST',
       });
       const { status: statusCode } = res;
 
