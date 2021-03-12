@@ -69,6 +69,12 @@ def generateRoute(stops):
 
 
     new_cords = [ stops[i] for i in best_points]
+    for i in new_cords:
+        if i == stops[0]:
+            break
+        else:
+            new_cords.remove(i)
+            new_cords.append(i)
 
     return  new_cords
 
